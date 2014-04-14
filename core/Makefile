@@ -1,5 +1,5 @@
 SRC_DIR = ..
-TARGET = mock
+TARGET = fork
 PART_NAME = core
 
 build: $(addsuffix .o, $(TARGET))
