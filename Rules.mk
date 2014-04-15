@@ -1,7 +1,7 @@
 DEST_DIR = $(SRC_DIR)/built
 OBJS_DIR = $(DEST_DIR)/objs
 TESTS_DIR = $(DEST_DIR)/tests
-CFLAGS = -g -I$(SRC_DIR) -Wall
+CFLAGS = -static -g -I$(SRC_DIR) -Wall
 CC = $(SRC_DIR)/Compiler
 
 .PHONY: clean

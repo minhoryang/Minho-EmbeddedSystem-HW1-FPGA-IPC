@@ -2,20 +2,24 @@ SRC_DIR = .
 TARGET = 20091631
 ARGUMENTS = $(filter-out arm intel build.core build.modules, $(MAKECMDGOALS))
 
-IS_BUILD = $(findstring build, $(MAKECMDGOALS))
-IS_TESTS = $(findstring tests, $(MAKECMDGOALS))
-IS_CLEAN = $(findstring clean, $(MAKECMDGOALS))
+#IS_BUILD = $(findstring build, $(MAKECMDGOALS))
+#IS_TESTS = $(findstring tests, $(MAKECMDGOALS))
+#IS_CLEAN = $(findstring clean, $(MAKECMDGOALS))
 ifeq "$(IS_BUILD)$(IS_TESTS)$(IS_CLEAN)" ""
 IS_BUILD = build  #default
 endif
+
+.PHONY: default
+default:
+	make arm build
 
 .PHONY: arm
 arm: 
 	@# usage
 	@# $ make (arm) build
 	@# $ make (arm) tests
-	ln -s -f `which gcc` Compiler
-	make $(IS_BUILD) $(IS_TESTS) $(IS_CLEAN) $(ARGUMENTS)
+	ln -s -f `which arm-none-linux-gnueabi-gcc` Compiler
+	@make $(IS_BUILD) $(IS_TESTS) $(IS_CLEAN) $(ARGUMENTS)
 
 .PHONY: intel
 intel: 
@@ -23,7 +27,7 @@ intel:
 	@# $ make intel build
 	@# $ make intel tests
 	ln -s -f `which gcc` Compiler
-	make $(IS_BUILD) $(IS_TESTS) $(IS_CLEAN) $(ARGUMENTS)
+	@make $(IS_BUILD) $(IS_TESTS) $(IS_CLEAN) $(ARGUMENTS)
 
 .PHONY: build
 build: build.core build.modules .mkdir.o
@@ -36,9 +40,9 @@ tests: build.core build.modules
 
 
 build.core:
-	make -C $(SRC_DIR)/core $(ARGUMENTS)
+	@make -C $(SRC_DIR)/core $(ARGUMENTS)
 
 build.modules: core
-	make -C $(SRC_DIR)/modules $(ARGUMENTS)
+	@make -C $(SRC_DIR)/modules $(ARGUMENTS)
 
 include $(SRC_DIR)/Rules.mk 

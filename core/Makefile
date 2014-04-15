@@ -1,5 +1,5 @@
 SRC_DIR = ..
-TARGET = fork
+TARGET = fork msgq
 PART_NAME = core
 
 build: $(addsuffix .o, $(TARGET))
