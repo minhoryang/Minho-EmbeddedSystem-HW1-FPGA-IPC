@@ -65,6 +65,7 @@ static bool process_loop(void *aux){
 		if(DB->init){
 			input_init_keys(&(DB->keys));
 			process_init_flags(&(DB->flags));
+			DB->init = false;
 		}
 	}
 	// 4. mode(key, flags);
