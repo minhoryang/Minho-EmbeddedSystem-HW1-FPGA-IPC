@@ -58,7 +58,7 @@ void stop_watch(struct bitmap *keys, struct FLAGS *flags, key_t msgq_key){
 			}
 		}
 	}
-	switch(bitmap_scan(keys, 0, KEYS_NUM, false)){
+	switch(bitmap_scan(keys, 0, KEYS_NUM, true)){
 		case BITMAP_ERROR:
 		default:
 			break;
