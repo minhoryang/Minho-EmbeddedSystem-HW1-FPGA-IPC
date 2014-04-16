@@ -1,5 +1,5 @@
 SRC_DIR = ..
-TARGET = fork msgq
+TARGET = fork msgq gameloop
 PART_NAME = core
 
 build: $(addsuffix .o, $(TARGET))
