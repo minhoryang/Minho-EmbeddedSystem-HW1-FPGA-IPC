@@ -1,16 +1,17 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "core/bitmap.h"
-#include "core/fork.h"
-#include "core/gameloop.h"
-#include "core/msgq.h"
-#include "modules/inputdev.h"
 
 #ifndef process_h
 	#define process_h
+	#include "core/bitmap.h"
+	#include "core/fork.h"
+	#include "core/gameloop.h"
+	#include "core/msgq.h"
+	#include "modules/inputdev.h"
+	#include "modules/stop_watch.h"
 
-	typedef void (*MODEFUNC)(struct bitmap *keys, struct bitmap *flags);
+	typedef void (*MODEFUNC)(struct bitmap *keys, struct bitmap *flags, key_t msgq_key);
 
 	#define MODE_MAX 2
 	#define FLAG_NUM 5

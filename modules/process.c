@@ -7,6 +7,7 @@
 	#include "core/gameloop.c"
 	#include "core/msgq.c"
 	#include "modules/inputdev.c"
+	#include "modules/stop_watch.c"
 
 	int main(){
 		process_main();
@@ -24,7 +25,8 @@ int process_main(){  // to be forked.
 	input_init_keys(&(DB.keys));
 	process_init_flags(&(DB.flags));
 
-	DB.modelist[0] = NULL;
+	DB.mode = 0;
+	DB.modelist[0] = stop_watch;
 	DB.modelist[1] = NULL;
 
 	// loop:
@@ -67,7 +69,7 @@ static bool process_loop(void *aux){
 		}
 	}
 	// 4. mode(key, flags);
-	DB->modelist[DB->mode](DB->keys, DB->flags);
+	DB->modelist[DB->mode](DB->keys, DB->flags, DB->msgq_key);
 	return false;
 }
 
