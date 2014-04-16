@@ -1,7 +1,6 @@
-#include "core/bitmap.h"
-
-#ifndef input_h
-	#define input_h
+#ifndef inputdev_h
+	#define inputdev_h
+	#include "core/bitmap.h"
 
 	#define KEYS_NUM 4
 	#define IN_SWITCH_GPIO_SELECT 0 

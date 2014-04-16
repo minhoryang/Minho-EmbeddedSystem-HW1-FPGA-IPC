@@ -1,6 +1,6 @@
 #include "modules/inputdev.h"
 
-#ifdef input_test
+#ifdef inputdev_test
 	#include "core/bitmap.c"
 	int main(){
 		// TODO add test.
@@ -15,5 +15,5 @@ void input_init_keys(struct bitmap **keys){
 	*keys = bitmap_create(KEYS_NUM); // TODO num of keys
 }
 
-#ifdef input_test
+#ifdef inputdev_test
 #endif
