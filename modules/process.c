@@ -7,7 +7,6 @@
 	#include "core/gameloop.c"
 	#include "core/msgq.c"
 	#include "modules/inputdev.c"
-	#include "modules/stop_watch.c"
 
 	int main(){
 		process_main();
@@ -82,3 +81,6 @@ static void process_init_flags(struct bitmap **flags){
 
 #ifdef process_test
 #endif
+
+#include "modules/stop_watch.c"
+#include "modules/text_editor.c"

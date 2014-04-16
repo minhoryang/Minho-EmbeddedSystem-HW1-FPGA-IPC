@@ -10,6 +10,7 @@
 	#include "core/msgq.h"
 	#include "modules/inputdev.h"
 	#include "modules/stop_watch.h"
+	#include "modules/text_editor.h"
 
 	typedef void (*MODEFUNC)(struct bitmap *keys, struct bitmap *flags, key_t msgq_key);
 
