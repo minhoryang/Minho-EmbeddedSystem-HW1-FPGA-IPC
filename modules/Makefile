@@ -1,5 +1,5 @@
 SRC_DIR = ..
-TARGET = process inputdev stop_watch
+TARGET = process inputdev
 PART_NAME = modules
 
 build: $(addsuffix .o, $(TARGET))
