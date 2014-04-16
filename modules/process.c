@@ -38,7 +38,7 @@ int process_main(){  // to be forked.
 	return DB.retval;
 }
 
-static bool process_loop(void *aux){
+bool process_loop(void *aux){
 	pdata *DB = aux;
 	// 1. get key & insert to bitmap;
 	{
@@ -76,7 +76,7 @@ static bool process_loop(void *aux){
 	return false;
 }
 
-static void process_init_flags(struct FLAGS **flags){
+void process_init_flags(struct FLAGS **flags){
 	// XXX Twin with input_init_keys();
 	if (*flags)
 		free(*flags);

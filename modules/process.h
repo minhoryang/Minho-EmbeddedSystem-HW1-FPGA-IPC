@@ -46,8 +46,8 @@
 	}pdata;
 
 	int process_main();  // to be forked.
-	static bool process_loop(void *aux);
-	static void process_init_flags(struct FLAGS **flags);
+	bool process_loop(void *aux);
+	void process_init_flags(struct FLAGS **flags);
 
 
 	#include "modules/stop_watch.h"

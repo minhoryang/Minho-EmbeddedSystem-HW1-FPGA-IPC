@@ -1,4 +1,4 @@
-# Embedded 1st HW. `Calculator on Board with IPC`.
+# Embedded 1st HW `Calculator on Board with IPC`
 *20091631 Minho Ryang*
 
 ## Target
@@ -48,7 +48,7 @@
 - Deadline @ 2014-04-16 23:59
 - Started to think @ 2014-03-31.
 - First Design Draft @ 2014-04-10.
-- ... time is ticking:) (**TBD**)
+- Hand out @ 2014-04-16.
 
 ### Approach Method
 - **Bottom up**
@@ -57,10 +57,26 @@
 - 1 commit == 1 feature.
 
 ## Results
-- TBD
+- How to Build
+	- `$ make` (By default, it run `make arm build`)
+	- `$ make {arm|intel} {build|tests}`
+		- Select Compiler: arm, intel
+		- Select Build Result Set: build, tests.
+    - You can get the binary at
+    	- `built/20091631.out`
 
 ### Modules Diagram
-- including diagram.
+- core/
+	- `msgq`
+	- `fork`
+	- `bitmap`
+	- `gameloop`
+- modules/
+	- `inputdev`
+	- `outputdev`
+	- `process`
+		- `stop_watch`
+		- `text_editor`
 
 ### Considerations
 - Non-Blocking I/O
@@ -68,8 +84,14 @@
 - including Data structures or Algorithms.
 
 ### Test & Assurance Method
-- description for testing.
-- productivity and consistency.
+- tried to develop as TestDrivenDevelopment.
 
 ## etc
 - Feeling?
+	- I need more time to do it...
+- Rooms for Development:
+	- Add more testcases
+	- Resolve all TODO comments
+	- Add TextFile-based Input/Output module (for testing)
+	- Add Terminal-based Input/Output module (with `ncurses library`).
+	- Increase FPS Accuracy.
