@@ -4,8 +4,8 @@
 	#include "core/gameloop.h"
 
 	#define DISP_NUM 17
-	#define OUT_CLEAN 0
-	#define OUT_7SEGMENTS_GPIO_1 1
+	#define OUT_CLEAN 0  // mbool
+	#define OUT_7SEGMENTS_GPIO_1 1  // mvalue
 	#define OUT_7SEGMENTS_GPIO_2 2
 	#define OUT_7SEGMENTS_GPIO_3 3
 	#define OUT_7SEGMENTS_GPIO_4 4
@@ -20,7 +20,7 @@
 	#define OUT_DOTMATRIX_FPGA_A 13  // TODO2
 	#define OUT_DOTMATRIX_FPGA_1 14  // TODO2
 	#define OUT_LCD_FPGA_CHAR 15
-	#define OUT_LCD_FPGA_CLEAN 16
+	#define OUT_LCD_FPGA_CLEAN 16  // TODO?
 
 	typedef struct _outputdef_data{
 		key_t msgq_key;

@@ -30,10 +30,10 @@ int inputdev_main(){  // XXX to be forked
 }
 
 bool inputdev_loop(void *aux){
-	idata *DB = aux;
+	//idata *DB = aux;
 	// 1. get keys
 	// 2. send it.
-	msgq_send(DB->msgq_key, MSG_TO_PROCESS, 0);
+	//msgq_send(DB->msgq_key, MSG_TO_PROCESS, 0);
 	return false;
 }
 

@@ -21,7 +21,7 @@ int outputdev_main(){
 }
 
 bool outputdev_loop(void *aux){
-	odata *DB = aux;
+	//odata *DB = aux;
 	return false;
 }
 

@@ -27,6 +27,8 @@ int process_main(){  // to be forked.
 	DB.mode = 0;
 	DB.modelist[0] = stop_watch;
 	DB.modelist[1] = NULL;
+	DB.modeinitlist[0] = stop_watch_init;
+	DB.modeinitlist[1] = NULL;
 
 	// loop:
 	gameloop(process_loop, &DB, 30);
@@ -40,9 +42,9 @@ static bool process_loop(void *aux){
 	pdata *DB = aux;
 	// 1. get key & insert to bitmap;
 	{
-		int key;
-		if(msgq_recv(DB->msgq_key, MSG_TO_PROCESS, &key) != -1)  // TODO replace &key, &press
-			bitmap_mark(DB->keys, key);  // TODO replace bitmap_set( * , * , * )
+		msg_pack *key;
+		if(msgq_recv(DB->msgq_key, MSG_TO_PROCESS, &key) != -1)
+			bitmap_mark(DB->keys, key->mdata);  // TODO replace bitmap_set( * , * , * )
 	}
 	// 2. mode switch;
 	{
@@ -65,6 +67,7 @@ static bool process_loop(void *aux){
 		if(DB->init){
 			input_init_keys(&(DB->keys));
 			process_init_flags(&(DB->flags));
+			DB->modeinitlist[DB->mode](DB->keys, DB->flags, DB->msgq_key);
 			DB->init = false;
 		}
 	}
@@ -73,11 +76,11 @@ static bool process_loop(void *aux){
 	return false;
 }
 
-static void process_init_flags(struct bitmap **flags){
+static void process_init_flags(struct FLAGS **flags){
 	// XXX Twin with input_init_keys();
 	if (*flags)
-		bitmap_destroy(*flags);
-	*flags = bitmap_create(FLAG_NUM);
+		free(*flags);
+	*flags = (struct FLAGS *)calloc(1, sizeof(struct FLAGS));
 }
 
 #ifdef process_test
