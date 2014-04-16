@@ -9,6 +9,9 @@
 		long mtype;
 		int mdata;  // TODO : is it enough?
 	}msg_pack;
+	#define MSG_TO_INPUT 10
+	#define MSG_TO_PROCESS 20
+	#define MSG_TO_OUTPUT 30
 
 	key_t msgq_open(char * const keyfile);
 	int msgq_close(key_t key);

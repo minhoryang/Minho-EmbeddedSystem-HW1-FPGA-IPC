@@ -1,5 +1,5 @@
 SRC_DIR = ..
-TARGET = fork msgq gameloop
+TARGET = fork msgq gameloop bitmap
 PART_NAME = core
 
 build: $(addsuffix .o, $(TARGET))

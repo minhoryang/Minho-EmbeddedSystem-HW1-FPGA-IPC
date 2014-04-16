@@ -1,5 +1,5 @@
 SRC_DIR = ..
-TARGET = mock2
+TARGET = process inputdev
 PART_NAME = modules
 
 build: $(addsuffix .o, $(TARGET))
