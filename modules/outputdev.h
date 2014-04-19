@@ -31,6 +31,7 @@
 	#define OUT_DOTMATRIX_FPGA_1 14  // TODO2
 	#define OUT_LCD_FPGA_CHAR 15
 	#define OUT_LCD_FPGA_CLEAN 16  // TODO?
+	#define OUT_EXIT 999
 
 	#define IO_GPL_BASE_ADDR 0x11000000
 	#define FND_GPL2CON 0x0100
@@ -74,6 +75,6 @@
 
 	int outputdev_main();
 	bool outputdev_loop(void *aux);
-	void outputdev_open(void *aux);
+	bool outputdev_open(void *aux);
 	void outputdev_close(void *aux);
 #endif

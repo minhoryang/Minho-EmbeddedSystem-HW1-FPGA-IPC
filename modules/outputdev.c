@@ -12,10 +12,12 @@ int outputdev_main(){
 	odata DB;
 	printf("outputdev\n");
 	DB.msgq_key = msgq_open("process2");
-	outputdev_open(&DB);
-
-	gameloop(outputdev_loop, &DB, 300);
-
+	if(outputdev_open(&DB))
+	{
+		gameloop(outputdev_loop, &DB, 300);
+	}else{
+		;
+	}
 	outputdev_close(&DB);
 	msgq_close(DB.msgq_key);
 	return 0;
@@ -127,6 +129,8 @@ bool outputdev_loop(void *aux){
 					}
 					write(DB->text_dev, DB->string, 32);
 					break;
+				case OUT_EXIT:
+					return true;
 			}
 		}
 	}
@@ -169,12 +173,13 @@ bool outputdev_loop(void *aux){
 	return false;
 }
 
-void outputdev_open(void *aux){
+bool outputdev_open(void *aux){
+	bool okay = true;
 	odata *DB = aux;
 	DB->c = 0;
 	{  // GPIO
 		if((DB->fd = open("/dev/mem", O_RDWR|O_SYNC)) < 0)
-			printf("/dev/mem open error");
+			okay = false;
 
 		DB->gpl_addr = (unsigned long *)mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_SHARED, DB->fd, IO_GPL_BASE_ADDR);
 		if(DB->gpl_addr != NULL){
@@ -182,7 +187,7 @@ void outputdev_open(void *aux){
 			DB->gpl_dat = (unsigned long *)(DB->gpl_addr + FND_GPL2DAT);
 		}
 		if(*DB->gpl_con == (unsigned long)-1 || *DB->gpl_dat == (unsigned long)-1)
-			printf("mmap error");
+			okay = false;
 
 		DB->gpe_addr = (unsigned long *)mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_SHARED, DB->fd, IO_GPE_BASE_ADDR);
 		if(DB->gpe_addr != NULL){
@@ -190,7 +195,7 @@ void outputdev_open(void *aux){
 			DB->gpe_dat = (unsigned long *)(DB->gpe_addr + FND_GPE3DAT);
 		}
 		if(*DB->gpe_con == (unsigned long)-1 || *DB->gpe_dat == (unsigned long)-1)
-			printf("mmap error");
+			okay = false;
 
 		// open and initialize LED driver
 		DB->baseaddr = (unsigned long *)mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_SHARED, DB->fd, IO_BASE_ADDR);
@@ -199,28 +204,30 @@ void outputdev_open(void *aux){
 			DB->led_dat = (unsigned long *)(DB->baseaddr + DAT_OFFSET);
 		}
 		if(*DB->led_con == (unsigned long)-1 || *DB->led_dat == (unsigned long)-1)
-			printf("mmap error");
+			okay = false;
 		*DB->led_con |= 0x11110000;
 	}
 	{  // FPGA
 		if((DB->fpga_dot = open("/dev/fpga_dot", O_WRONLY /*| O_NONBLOCK*/)) < 0)
-			printf("/dev/fpga_dot open error");
+			okay = false;
 		DB->str_size = 10;
 
 		if((DB->fnd_dev = open("/dev/fpga_fnd", O_RDWR /*| O_NONBLOCK*/)) < 0)
-			printf("/dev/fpga_fnd open error");
+			okay = false;
 		memset(DB->data, 0, sizeof(DB->data));
 
 		if((DB->text_dev = open("/dev/fpga_text_lcd", O_WRONLY /*| O_NONBLOCK*/)) < 0)
-			printf("/dev/fpga_text_lcd open error");
+			okay = false;
 		memset(DB->string, ' ', 32); //sizeof(DB->string));
 	}
+	return okay;
 }
 
 void outputdev_close(void *aux){
 	odata *DB = aux;
 	// GPIO
 	{
+		*DB->led_con = 0x00000000;
 		*DB->gpe_dat = 0x96;
 		*DB->gpl_dat = 0x03;
 		*DB->led_dat = 0xE0;

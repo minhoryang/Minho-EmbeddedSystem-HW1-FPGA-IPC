@@ -55,6 +55,13 @@ bool process_loop(void *aux){
 		// 0->1 right away.
 		if(bitmap_get(DB->keys, IN_SWITCH_GPIO_SELECT)){
 			// TODO ~init.
+			{  // OUTPUT.
+				msg_pack t;
+				t.mtype = MSG_TO_OUTPUT;
+				t.mdata = OUT_EXIT;
+				msgq_send(DB->msgq_key, &t);
+			}
+			sleep(2);
 			return true;
 		}else if(bitmap_get(DB->keys, IN_SWITCH_GPIO_UP)){
 			if(++(DB->mode) == MODE_MAX)

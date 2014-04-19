@@ -85,6 +85,10 @@ bool inputdev_loop(void *aux){
 					msgq_send(DB->msgq_key, &i);
 					bitmap_set(DB->pressed, t, true);
 					}
+					if(t == IN_SWITCH_GPIO_SELECT){
+						sleep(2);
+						return true;
+					}
 				}
 			}else GPIO_RESET(aux);
 		}else GPIO_RESET(aux);
