@@ -17,7 +17,8 @@
 int process_main(){  // to be forked.
 	// data.
 	pdata DB;
-	DB.msgq_key = msgq_open("process");
+	printf("process\n");
+	DB.msgq_key = msgq_open("process2");
 	DB.init = false;
 	DB.keys = NULL;
 	DB.flags = NULL;
@@ -26,12 +27,13 @@ int process_main(){  // to be forked.
 
 	DB.mode = 0;
 	DB.modelist[0] = stop_watch;
-	DB.modelist[1] = NULL;
+	DB.modelist[1] = text_editor;
 	DB.modeinitlist[0] = stop_watch_init;
-	DB.modeinitlist[1] = NULL;
+	DB.modeinitlist[1] = text_editor_init;
+	DB.modeinitlist[DB.mode](DB.keys, DB.flags, DB.msgq_key);
 
 	// loop:
-	gameloop(process_loop, &DB, 30);
+	gameloop(process_loop, &DB, PROCESS_FPS);
 
 	// ~data.
 	msgq_close(DB.msgq_key);
@@ -40,13 +42,15 @@ int process_main(){  // to be forked.
 
 bool process_loop(void *aux){
 	pdata *DB = aux;
-	// 1. get key & insert to bitmap;
+	//printf("1. get key & insert to bitmap;\n");
 	{
-		msg_pack *key;
-		if(msgq_recv(DB->msgq_key, MSG_TO_PROCESS, &key) != -1)
-			bitmap_mark(DB->keys, key->mdata);  // TODO replace bitmap_set( * , * , * )
+		msg_pack *key = calloc(1, sizeof(msg_pack));
+		if(msgq_recv(DB->msgq_key, MSG_TO_PROCESS, &key) != -1){
+			printf("get key %d\n", key->mdata);
+			bitmap_set(DB->keys, key->mdata, key->mbool);
+		}
 	}
-	// 2. mode switch;
+	//printf("2. mode switch;\n");
 	{
 		// 0->1 right away.
 		if(bitmap_get(DB->keys, IN_SWITCH_GPIO_SELECT)){

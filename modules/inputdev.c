@@ -19,14 +19,26 @@ void input_init_keys(struct bitmap **keys){
 
 int inputdev_main(){  // XXX to be forked
 	idata DB;
-	DB.msgq_key = msgq_open("process");
+	DB.msgq_key = msgq_open("process2");
 	inputdev_open(&DB);
+	DB.pressed = bitmap_create(KEYS_NUM);
+	printf("inputdev\n");
 
 	gameloop(inputdev_loop, &DB, 30);
 
+	bitmap_destroy(DB.pressed);
 	inputdev_close(&DB);
 	msgq_close(DB.msgq_key);
 	return 0;
+}
+
+void GPIO_RESET(void *aux){
+	idata *DB = aux;
+	bitmap_set_multiple(
+			DB->pressed,
+			IN_SWITCH_GPIO_SELECT,
+			IN_BUTTON_GPIO_4 - IN_SWITCH_GPIO_SELECT + 1,
+			false);
 }
 
 bool inputdev_loop(void *aux){
@@ -64,14 +76,18 @@ bool inputdev_loop(void *aux){
 				}
 				if(t != -1)
 				{
+					if(!bitmap_get(DB->pressed, t))
+					{
 					msg_pack i;
 					i.mtype = MSG_TO_PROCESS;
 					i.mdata = t;
 					i.mbool = true;
 					msgq_send(DB->msgq_key, &i);
+					bitmap_set(DB->pressed, t, true);
+					}
 				}
-			}
-		}
+			}else GPIO_RESET(aux);
+		}else GPIO_RESET(aux);
 	}
 	{  // FPGA
 		unsigned char push_sw_buff[9];
@@ -82,6 +98,12 @@ bool inputdev_loop(void *aux){
 				msg_pack j;
 				j.mtype = MSG_TO_PROCESS;
 				j.mdata = IN_BUTTON_FPGA_1 + i;
+				msgq_send(DB->msgq_key, &j);
+			}else if(DB->pushed_fpga[i] && !push_sw_buff[i]){
+				msg_pack j;
+				j.mtype = MSG_TO_PROCESS;
+				j.mdata = IN_BUTTON_FPGA_1 + i;
+				j.mbool = false;
 				msgq_send(DB->msgq_key, &j);
 			}
 			DB->pushed_fpga[i] = push_sw_buff[i];

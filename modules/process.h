@@ -14,13 +14,15 @@
 
 	#define MODE_MAX 2
 	#define FLAG_NUM 5
+	#define PROCESS_FPS 20
 
 	struct FLAGS{
 		// timer
 		long long int c;
 		int min;
 		int sec;
-		time_t start;
+		bool start;
+		long long int start_c;
 		bool ispause;
 		bool paused_3_4;
 		// text

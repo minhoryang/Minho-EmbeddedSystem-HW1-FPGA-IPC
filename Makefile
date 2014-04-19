@@ -32,7 +32,7 @@ intel:
 .PHONY: build
 build: build.core build.modules .mkdir.o
 	$(CC) -g -Wall -o $(OBJS_DIR)/main.o -c main.c -I$(SRC_DIR) -static
-	$(CC) -g -Wall -o $(DEST_DIR)/20091631.out $(OBJS_DIR)/*/*.o $(OBJS_DIR)/main.o
+	$(CC) -g -Wall -o $(DEST_DIR)/20091631.out $(OBJS_DIR)/*/*.o $(OBJS_DIR)/main.o -static
 	@#cp $(DEST_DIR)/20091631.out $(DEST_DIR)/../20091631.out
 
 .PHONY: tests

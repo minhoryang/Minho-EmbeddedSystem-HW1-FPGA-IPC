@@ -1,0 +1,21 @@
+rmmod led_driver.ko
+rmmod fnd_driver.ko
+rmmod fpga_buzzer_driver.ko
+rmmod fpga_dip_switch_driver.ko
+rmmod fpga_dot_driver.ko
+rmmod fpga_fnd_driver.ko
+rmmod fpga_led_driver.ko
+rmmod fpga_push_switch_driver.ko
+rmmod fpga_step_motor_driver.ko
+rmmod fpga_text_lcd_driver.ko
+
+rm /dev/led_driver
+rm /dev/fnd_driver
+rm /dev/fpga_led
+rm /dev/fpga_fnd
+rm /dev/fpga_dot
+rm /dev/fpga_text_lcd
+rm /dev/fpga_buzzer 
+rm /dev/fpga_push_switch
+rm /dev/fpga_dip_switch 
+rm /dev/fpga_step_motor

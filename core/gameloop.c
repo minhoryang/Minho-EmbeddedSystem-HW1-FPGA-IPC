@@ -29,9 +29,9 @@ void gameloop(bool (*GAMEFUNC)(void *), void *aux, int FPS){
 	double waitTime = 1000 * 1000 / FPS, overflow = 0;
 
 	// XXX FPS Counter Init.
-	//struct timeval init1;
-	//long long int cnt = 0;
-	//gettimeofday(&init1, NULL);
+	struct timeval init1;
+	long long int cnt = 0;
+	gettimeofday(&init1, NULL);
 
 	while(true){
 		gettimeofday(&start, NULL);
@@ -47,8 +47,8 @@ void gameloop(bool (*GAMEFUNC)(void *), void *aux, int FPS){
 			overflow = 0.0;
 
 		// XXX FPS Print.
-		//++cnt;
-		//if(!(cnt % FPS))
-		//	printf("fps %lf\n", cnt / (diff(&end, &init1) / (double)1000000));
+		++cnt;
+		if(!(cnt % (FPS * 5)))
+			printf("%s fps %lf\n", __FILE__, cnt / (diff(&end, &init1) / (double)1000000));
 	}
 }

@@ -44,9 +44,10 @@ size_t msgq_recv(key_t key, long mtype, msg_pack **recv){
 }
 
 #ifdef msgq_test
+/*
 	key_t mykey;
 	int result;
-/*
+	msg_pack *result2;
 	void test_nothing_happened(){
 		assert((mykey = msgq_open(TEST_FILE)) > 0);
 		assert(!msgq_close(mykey));
@@ -54,7 +55,7 @@ size_t msgq_recv(key_t key, long mtype, msg_pack **recv){
 	void test_one_happened(){
 		assert((mykey = msgq_open(TEST_FILE)) > 0);
 		assert(!msgq_send(mykey, 1, TEST_VAL));
-		assert((msgq_recv(mykey, 1, &result) != -1) && (result == TEST_VAL));
+		assert((msgq_recv(mykey, 1, result2) != -1) && (result == TEST_VAL));
 		assert(!msgq_close(mykey));
 	}
 	void test_one_happened_anyway(){
