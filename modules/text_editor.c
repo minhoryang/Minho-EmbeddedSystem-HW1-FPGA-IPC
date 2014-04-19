@@ -119,6 +119,12 @@ void text_editor(struct bitmap *keys, struct FLAGS *flags, key_t msgq_key){
 			}else
 			if(P(8) && P(9)){  // shutdown
 				// TODO
+				{
+					msg_pack t;
+					t.mtype = MSG_TO_PROCESS;
+					t.mdata = IN_SWITCH_GPIO_SELECT;
+					msgq_send(msgq_key, &t);
+				}
 				bitmap_set(keys, IN_BUTTON_FPGA_8, false);
 				bitmap_set(keys, IN_BUTTON_FPGA_9, false);
 			}else
